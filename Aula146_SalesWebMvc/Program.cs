@@ -12,6 +12,11 @@ namespace Aula146_SalesWebMvc
 {
     public class Program
     {
+        // ctrl + shift + b  == compila o programa
+        // run project  1. com debug == F5
+        //              2  sem debug == ctrl + F5
+
+
         public static void Main(string[] args)
         {
             CreateWebHostBuilder(args).Build().Run();
