@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Aula146_SalesWebMvc.Models;
+using Aula146_SalesWebMvc.Models.ViewModels;
 
 namespace Aula146_SalesWebMvc.Controllers
 {
