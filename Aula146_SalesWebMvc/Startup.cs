@@ -33,11 +33,12 @@ namespace Aula146_SalesWebMvc
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
+            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddDbContext<Aula146_SalesWebMvcContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("Aula146_SalesWebMvcContext")));
+                    options.UseMySql(Configuration.GetConnectionString("Aula146_SalesWebMvcContext"), builder =>
+                        builder.MigrationsAssembly("Aula146_SalesWebMvc")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
