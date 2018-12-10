@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Aula146_SalesWebMvc.Models;
+using Aula146_SalesWebMvc.Data;
 
 namespace Aula146_SalesWebMvc
 {
@@ -39,14 +40,18 @@ namespace Aula146_SalesWebMvc
             services.AddDbContext<Aula146_SalesWebMvcContext>(options =>
                     options.UseMySql(Configuration.GetConnectionString("Aula146_SalesWebMvcContext"), builder =>
                         builder.MigrationsAssembly("Aula146_SalesWebMvc")));
+
+            // registra o servico SeedingService no sistema de injecao de depencia da aplicacao
+            services.AddScoped<SeedingService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env ,SeedingService seedingService )
         {
-            if (env.IsDevelopment())
+            if (env.IsDevelopment())             // 1. se eu estiver no perfil de desenvolvimento ...
             {
                 app.UseDeveloperExceptionPage();
+                seedingService.Seed();           // 1.. o app vai popular a base de dados se nao estiver populada
             }
             else
             {
