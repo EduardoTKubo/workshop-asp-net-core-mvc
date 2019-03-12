@@ -12,6 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Aula146_SalesWebMvc.Models;
 using Aula146_SalesWebMvc.Data;
+using Aula146_SalesWebMvc.Services;
+
 
 namespace Aula146_SalesWebMvc
 {
@@ -43,6 +45,7 @@ namespace Aula146_SalesWebMvc
 
             // registra o servico SeedingService no sistema de injecao de depencia da aplicacao
             services.AddScoped<SeedingService>();
+            services.AddScoped<SellerService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
