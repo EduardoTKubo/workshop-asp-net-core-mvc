@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Aula146_SalesWebMvc.Models;
+using Aula146_SalesWebMvc.Models.ViewModels;
 using Aula146_SalesWebMvc.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,13 +12,16 @@ namespace Aula146_SalesWebMvc.Controllers
     public class SellersController : Controller
     {
         // declara uma dependencia para o SellerService
-        private readonly SellerService _sellerService; 
+        private readonly SellerService _sellerService;
 
+        // declara uma dependencia para o DepartmentService
+        private readonly DepartmentService _departmentService;
 
         // construtor <> injecao de dependencia
-        public SellersController (SellerService  sellerService)
+        public SellersController (SellerService  sellerService ,DepartmentService departmentService)
         {
             _sellerService = sellerService;
+            _departmentService = departmentService;
         }
 
 
@@ -29,7 +33,9 @@ namespace Aula146_SalesWebMvc.Controllers
 
         public IActionResult Create()
         {
-            return View();
+            var departments = _departmentService.FindAll();
+            var viewModel = new SellerFormViewModel { Departments = departments };
+            return View(viewModel);
         }
 
         [HttpPost]
