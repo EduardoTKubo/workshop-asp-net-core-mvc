@@ -3,14 +3,16 @@ using System;
 using Aula146_SalesWebMvc.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Aula146_SalesWebMvc.Migrations
 {
     [DbContext(typeof(Aula146_SalesWebMvcContext))]
-    partial class Aula146_SalesWebMvcContextModelSnapshot : ModelSnapshot
+    [Migration("20190313213335_DepartmentForeignKey")]
+    partial class DepartmentForeignKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

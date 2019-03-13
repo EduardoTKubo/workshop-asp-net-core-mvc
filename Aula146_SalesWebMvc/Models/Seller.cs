@@ -14,6 +14,7 @@ namespace Aula146_SalesWebMvc.Models
 
         // associando Seller com Department   ( 1 vendedor esta associado a um departamento )
         public Department Department { get; set; }
+        public int DepartmentID { get; set; }
 
         // associando Seller com SalesRecord  ( 1 vendedor pode ter mais de uma venda )
         public ICollection<SalesRecord> Sales { get; set; } = new List<SalesRecord>();
