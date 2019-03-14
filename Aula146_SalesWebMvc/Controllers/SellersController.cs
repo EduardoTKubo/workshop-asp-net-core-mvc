@@ -71,5 +71,22 @@ namespace Aula146_SalesWebMvc.Controllers
             return RedirectToAction(nameof(Index));     // retorna a tela inicial
         }
 
+
+        public IActionResult Details (int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var obj = _sellerService.FindByID(id.Value);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+
+            return View(obj);
+
+        }
     }
 }
