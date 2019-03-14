@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Aula146_SalesWebMvc.Models;
@@ -51,13 +52,13 @@ namespace Aula146_SalesWebMvc.Controllers
         {
             if ( id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id not provided" });
             }
 
             var obj = _sellerService.FindByID(id.Value);
             if (obj == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id not found" });
             }
 
             return View(obj);
@@ -77,13 +78,13 @@ namespace Aula146_SalesWebMvc.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error) ,new {message = "Id not provided"});
             }
 
             var obj = _sellerService.FindByID(id.Value);
             if (obj == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id not found" });
             }
 
             return View(obj);
@@ -95,13 +96,13 @@ namespace Aula146_SalesWebMvc.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id not provided" });
             }
 
             var obj = _sellerService.FindByID(id.Value);
             if(obj == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id not found" });
             }
 
             List<Department> departments = _departmentService.FindAll();
@@ -116,22 +117,40 @@ namespace Aula146_SalesWebMvc.Controllers
         {
             if(id != seller.Id)
             {
-                return BadRequest();
+                return RedirectToAction(nameof(Error), new { message = "Id mismath" });
             }
             try
             {
                 _sellerService.Update(seller);
                 return RedirectToAction(nameof(Index));
             }
-            catch (NotFoundException)
+
+            //catch (NotFoundException e)
+            //{
+            //    return RedirectToAction(nameof(Error), new { message = e.Message });
+            //}
+            //catch (DbConcurrencyException e)
+            //{
+            //    return RedirectToAction(nameof(Error), new { message = e.Message });
+            //}
+
+            // em substituição as 2 de cima 
+            catch (ApplicationException e)
             {
-                return NotFound();
-            }
-            catch (DbConcurrencyException)
-            {
-                return BadRequest();
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
 
+        }
+
+        public IActionResult Error (string message)
+        {
+            var viewModel = new ErrorViewModel
+            {
+                Message = message,
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+                // "massete" do framework para pegar o Id interno da requisição
+            };
+            return View(viewModel);
         }
     }
 }
