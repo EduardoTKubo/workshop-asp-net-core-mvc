@@ -18,35 +18,36 @@ namespace Aula146_SalesWebMvc.Services
             _context = context;
         }
 
-        // listar todos os vendedores
-        public List<Seller> FindAll()
+        // listar todos os vendedores - forma assincrona
+        public async Task<List<Seller>> FindAllAsync()
         {
-            return _context.Seller.ToList();
+            return await _context.Seller.ToListAsync();
         }
 
         // metodo para inserir vendedor no bco de dados
-        public void Insert ( Seller obj)
+        public async Task InsertAsync (Seller obj)
         {
             _context.Add(obj);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public Seller FindByID ( int id)
+        public async Task<Seller> FindByIDAsync ( int id)
         {
-            return _context.Seller.Include(obj => obj.Department).FirstOrDefault(obj => obj.Id == id);
+            return await _context.Seller.Include(obj => obj.Department).FirstOrDefaultAsync(obj => obj.Id == id);
             // Include funciona como um join
         }
 
-        public void Remove(int id)
+        public async Task RemoveAsync(int id)
         {
-            var obj = _context.Seller.Find(id);
+            var obj = await _context.Seller.FindAsync(id);
             _context.Seller.Remove(obj);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Update (Seller obj)
+        public async Task UpdateAsync (Seller obj)
         {
-            if (!_context.Seller.Any(x => x.Id == obj.Id))   
+            bool hasAny = await _context.Seller.AnyAsync(x => x.Id == obj.Id);
+            if (!hasAny)   
             {
                 // se não existir id
                 throw new NotFoundException("Id not found");
@@ -55,7 +56,7 @@ namespace Aula146_SalesWebMvc.Services
             try
             {
                 _context.Update(obj);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
             catch( DbUpdateConcurrencyException e)
             {

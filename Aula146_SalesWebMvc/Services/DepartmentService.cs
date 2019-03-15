@@ -1,6 +1,8 @@
 ﻿using Aula146_SalesWebMvc.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Aula146_SalesWebMvc.Services
 {
@@ -15,9 +17,17 @@ namespace Aula146_SalesWebMvc.Services
         }
 
         // listar todos os departamentos ordenados por departamento
-        public List<Department> FindAll()
+        // implementacao sincrona
+        //public List<Department> FindAll()
+        //{
+        //    return _context.Department.OrderBy(x => x.Name).ToList();
+        //}
+
+        // passamos para assincrona
+        public async Task<List<Department>>FindAllAsync()
         {
-            return _context.Department.OrderBy(x => x.Name).ToList();
+            return await _context.Department.OrderBy(x => x.Name).ToListAsync();
         }
+
     }
 }
