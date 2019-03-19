@@ -77,8 +77,16 @@ namespace Aula146_SalesWebMvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete (int id)
         {
-            await _sellerService.RemoveAsync(id);                  // faz a deleção
-            return RedirectToAction(nameof(Index));     // retorna a tela inicial
+            try
+            { 
+                await _sellerService.RemoveAsync(id);       // faz a deleção
+                return RedirectToAction(nameof(Index));     // retorna a tela inicial
+            }
+            catch (IntegrityException e)
+            {
+                return RedirectToAction(nameof(Error), new { message = e.Message });
+            }
+
         }
 
 
@@ -164,7 +172,7 @@ namespace Aula146_SalesWebMvc.Controllers
             {
                 Message = message,
                 RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
-                // "massete" do framework para pegar o Id interno da requisição
+                // "macete" do framework para pegar o Id interno da requisição
             };
             return View(viewModel);
         }
